@@ -1,2 +1,2 @@
 # cse-406
-Machine Learning Lab Course
+Operating System Lab Course
