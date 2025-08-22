@@ -1,39 +1,23 @@
-procs = int(input("Number of processes: "))
+def FCFS(request, head):
+    total_head_movement = 0
+    c_head = head
+    order = []
 
-at = []
-bt = []
+    for i in request:
+        if i == c_head: 
+            continue
+        else:
+            distance = abs(i - c_head)
+            total_head_movement += distance
+            order.append(i)
+            c_head = i
 
-for i in range(procs):
-    atime = int(input(f"Arrival Time for Process P{i+1}: "))
-    btime = int(input(f"Burst Time for Process P{i+1}: "))
-    at.append(atime)
-    bt.append(btime)
-for i in range(procs):
-    for j in range(i + 1, procs):
-        if at[i] > at[j]:
-            at[i], at[j] = at[j], at[i]
-            bt[i], bt[j] = bt[j], bt[i]
-
-
+    return total_head_movement, order
 
 
-ct = [0] * procs
-tat = [0] * procs
-wt = [0] * procs
+request = list(map(int, input("Input requests: ").split()))
+head = int(input("Input head number: "))
 
-current_time = 0
-
-for i in range(procs):
-    if current_time < at[i]:
-        current_time = at[i]
-    current_time += bt[i]
-    ct[i] = current_time
-    tat[i] = ct[i] - at[i]
-    wt[i] = tat[i] - bt[i]
-print("\nId\tAT\tBT\tCT\tWT\tTAT")
-for i in range(procs):
-    print(f"P{i+1}\t{at[i]}\t{bt[i]}\t{ct[i]}\t{wt[i]}\t{tat[i]}")
-avg_wt = int(sum(wt) / procs) 
-avg_tat = int(sum(tat) / procs)
-print(f"\navg waiting Time: {avg_wt}")
-print(f"avg turnaround Time: {avg_tat}")
+total_movement, order = FCFS(request, head)
+print("\nOrder of execution:", order)
+print("Total head movement:", total_movement)
